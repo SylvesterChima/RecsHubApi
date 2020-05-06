@@ -1,0 +1,117 @@
+﻿@using System.Collections
+@model RecsHub.Messages.ExceptionModel
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Exception</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 0.75em 0;
+            table-layout: fixed;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        tbody {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        tr, td, th {
+            vertical-align: middle;
+        }
+
+        td {
+            border-bottom: 1px solid black;
+            padding: 0.75em 0;
+        }
+    </style>
+</head>
+<body>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>Time</td>
+                <td>@Model.Time</td>
+            </tr>
+            <tr>
+                <td>Message</td>
+                <td>@Model.Message</td>
+            </tr>
+            <tr>
+                <td>Frames</td>
+                <td>
+                    @foreach (var frame in Model.Frames)
+                    {
+                        var method = frame.GetMethod();
+
+                        var fullName = method.DeclaringType != null
+                            ? $"{method.DeclaringType.FullName}.{method.Name}"
+                            : method.Name;
+                        <div style="font-weight: bold;">@fullName</div>
+                        <div style="padding-left: 20px; font-size: small;">@frame</div>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>StackTrace</td>
+                <td>@Model.StackTrace</td>
+            </tr>
+            <tr>
+                <td>Type</td>
+                <td>@Model.Type</td>
+            </tr>
+            <tr>
+                <td>HelpLink</td>
+                <td>@Model.HelpLink</td>
+            </tr>
+            <tr>
+                <td>HResult</td>
+                <td>@Model.HResult</td>
+            </tr>
+            <tr>
+                <td>InnerException</td>
+                <td>@Model.InnerException</td>
+            </tr>
+            <tr>
+                <td>Source</td>
+                <td>@Model.Source</td>
+            </tr>
+            <tr>
+                <td>TargetSite</td>
+                <td>@Model.TargetSite</td>
+            </tr>
+            <tr>
+                <td>Url</td>
+                <td>@Model.Url</td>
+            </tr>
+            <tr>
+                <td>User</td>
+                <td>@User.Identity.Name</td>
+            </tr>
+            @foreach (var header in Model.Headers)
+            {
+                <tr>
+                    <td>@header.Key</td>
+                    <td>@header.Value</td>
+                </tr>
+            }
+            @foreach (DictionaryEntry data in Model.ExceptionData)
+            {
+                <tr>
+                    <td>@data.Key</td>
+                    <td>@data.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
