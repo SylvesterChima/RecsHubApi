@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using DbInstaller.Installers;
 using RecsHub.Data;
 using RecsHub.Models;
+using RecsHub.Domain.Entities;
 
 namespace RecsHub.Installers
 {
@@ -35,9 +36,9 @@ namespace RecsHub.Installers
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddDbContext<UdooContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<RecsHubContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentityCore<ApplicationUser>()
                 .AddRoles<IdentityRole>()

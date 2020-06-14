@@ -72,12 +72,22 @@ namespace RecsHub
             app.UseSwaggerUI(option =>
             {
                 option.SwaggerEndpoint(swaggerOption.UIEndpoint, swaggerOption.Description);
+               // option.RoutePrefix = string.Empty;
             });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Alexa}/{action=login}/{id?}");
+                endpoints.MapRazorPages();
             });
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
         }
     }
 }

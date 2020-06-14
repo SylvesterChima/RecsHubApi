@@ -23,18 +23,20 @@ namespace RecsHub.Controllers
             _token = token;
         }
 
-        [HttpGet]
-        [Authorize(Roles ="TechAdmin")]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest login)
         {
-            var rst = await _token.LoginAsync(login.Email, login.Password);
-            return Ok(rst);
+            try
+            {
+                var rst = await _token.LoginAsync(login.Email, login.Password);
+                return Ok(rst);
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError(ex.Message);
+            }
 
         }
 
@@ -48,7 +50,7 @@ namespace RecsHub.Controllers
             }
             catch (Exception ex)
             {
-                return Ok(ex.Message);
+                return InternalServerError(ex.Message);
             }
 
         }

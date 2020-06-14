@@ -101,7 +101,9 @@ namespace RecsHub.Helpers
             new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(_options.ClaimsIdentity.UserIdClaimType, user.Id),
-            new Claim(_options.ClaimsIdentity.UserNameClaimType, user.UserName)
+            new Claim(_options.ClaimsIdentity.UserNameClaimType, user.UserName),
+            new Claim("firstname", user.FirstName),
+            new Claim("lastname", user.LastName)
         };
             var userClaims = await _userManager.GetClaimsAsync(user);
             var userRoles = await _userManager.GetRolesAsync(user);

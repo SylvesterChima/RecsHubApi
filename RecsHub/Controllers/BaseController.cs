@@ -26,5 +26,30 @@ namespace RecsHub.Controllers
         protected IHttpContextAccessor _ca => ca ?? (ca = HttpContext?.RequestServices.GetService<IHttpContextAccessor>());
         protected IMapper _mapper => mapper ?? (mapper = HttpContext?.RequestServices.GetService<IMapper>());
 
+        [NonAction]
+        public InternalServerErrorObjectResult InternalServerError()
+        {
+            return new InternalServerErrorObjectResult();
+        }
+
+        [NonAction]
+        public InternalServerErrorObjectResult InternalServerError(object value)
+        {
+            return new InternalServerErrorObjectResult(value);
+        }
+
+    }
+
+    public class InternalServerErrorObjectResult : ObjectResult
+    {
+        public InternalServerErrorObjectResult(object value) : base(value)
+        {
+            StatusCode = StatusCodes.Status500InternalServerError;
+        }
+
+        public InternalServerErrorObjectResult() : this(null)
+        {
+            StatusCode = StatusCodes.Status500InternalServerError;
+        }
     }
 }

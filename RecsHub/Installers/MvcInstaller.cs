@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using RecsHub.Domain.Abstract;
+using RecsHub.Domain.Contract;
 
 namespace DbInstaller.Installers
 {
@@ -33,6 +35,16 @@ namespace DbInstaller.Installers
             //Configuration.Bind(nameof(JwtSettings), jwtSettings);
             //services.AddSingleton(jwtSettings);
 
+            services.AddScoped<IAspNetUserRepository, EFAspNetUserRepository>();
+            services.AddScoped<IDailyStoreRecordRepository, EFDailyStoreRecordRepository>();
+            services.AddScoped<IProductRepository, EFProductRepository>();
+            services.AddScoped<IStockKeepingRepository, EFStockKeepingRepository>();
+            services.AddScoped<IStoreRecordRepository, EFStoreRecordRepository>();
+            services.AddScoped<ISupplierRepository, EFSupplierRepository>();
+            services.AddScoped<ISupplyRecordRepository, EFSupplyRecordRepository>();
+            services.AddScoped<ISalesItemRepository, EFSalesItemRepository>();
+            services.AddScoped<ISalesMasterRepository, EFSalesMasterRepository>();
+
             var jwtSection = Configuration.GetSection("JwtSettings");
             services.Configure<JwtSettings>(jwtSection);
 
@@ -40,7 +52,7 @@ namespace DbInstaller.Installers
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<IImageHelper, ImageHelper>();
 
-            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "ImageFiles")));
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageFiles")));
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
